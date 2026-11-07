@@ -15,7 +15,13 @@ POST:
 {text}
 """
 
-def write_script(post, name="Sana", words=170):
+def write_script(post, name="Sana", words=170, engine="claude"):
+    if engine == "gemini":
+        try:
+            from anchor import gemini
+            return gemini.write_script(PROMPT.format(name=name, words=words, title=post["title"], text=post["text"][:12000]))
+        except Exception as e:
+            print("Gemini script failed (%s), falling back" % type(e).__name__)
     if shutil.which("claude"):
         try:
             p = PROMPT.format(name=name, words=words, title=post["title"], text=post["text"][:12000])

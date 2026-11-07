@@ -8,7 +8,7 @@ def duration(p):
 def compose(audio, overlay, ticker, ticker_w, out, avatar_video=None, portrait=None, size=(1080, 1920)):
     W, H = size; dur = duration(audio)
     if avatar_video:   # talking-head clip from the Colab notebook, cropped to fill the frame
-        base = ["-i", avatar_video]
+        base = ["-stream_loop", "-1", "-i", avatar_video]
         bg = f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1[bg]"
     else:              # stand-in: portrait with a slow push-in so the pipeline is testable without a GPU
         base = ["-loop", "1", "-t", f"{dur:.2f}", "-i", portrait]
